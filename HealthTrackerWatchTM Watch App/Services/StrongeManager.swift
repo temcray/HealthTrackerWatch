@@ -24,7 +24,7 @@ class StrongeManager {
     // Mark: - private props
     private let defaults = UserDefaults.standard
     private let encoder = JSONEncoder()
-    private let decoder = JSONEncoder()
+    private let decoder = JSONDecoder()
     
     //Mark: - Function
     func saveEntries(_entries: [DiaryEntry]) {
@@ -34,10 +34,19 @@ class StrongeManager {
         
     }
     
-    func loadEntries() -> [DiaryEntry]? {
-        gruard let encodeDiaryEntries = defaults.data(forKey: Keys.diaryEntries),
-                   let diaryEntries = try? decoder.decoder([DiaryEntry].self, from: encodedDiaryEntries) eles {
-                       return []
-                   }
+    func loadEntries() -> [DiaryEntry] {
+        guard let encodeDiaryEntries = defaults.data(forKey: Keys.diaryEntries),
+        let diaryEntries = try? decoder.decode([DiaryEntry].self, from: data) else {
+            return []
+        }
+        
+        return entries
     }
+    
+    func addEntry(_ entry: DiaryEntry) {
+        var entries = loadEntries()
+        entries.append(entries)
+        saveEntries(entries)
+    }
+    
 }
