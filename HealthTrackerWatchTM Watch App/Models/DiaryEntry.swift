@@ -41,18 +41,21 @@ enum EntryType: String, Codable, CaseIterable {
         }
     }
     
-    struct DiaryEntry: Identifiable, Codable {
-        let id: UUID
-        let type: EntryType
-        let value: Double
-        let timestamp: Date
-        
-       
-        init(id: UUID, type: EntryType, value: Double, timestamp: Date) {
-            self.id = id
-            self.type = type
-            self.value = value
-            self.timestamp = timestamp
-        }
+   
+}
+
+
+struct DiaryEntry: Identifiable, Codable {
+    let id: UUID
+    let type: EntryType
+    let value: Double
+    let timestamp: Date
+    
+   
+    init(id: UUID, type: EntryType, value: Double, timestamp: Date) {
+        self.id = id
+        self.type = type
+        self.value = value
+        self.timestamp = timestamp
     }
 }

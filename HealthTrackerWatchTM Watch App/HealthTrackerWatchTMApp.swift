@@ -6,12 +6,24 @@
 //
 
 import SwiftUI
+import Combine
 
 @main
 struct HealthTrackerWatchTM_Watch_AppApp: App {
+    @StateObject private var viewModel = HealthTrackerViewModel()
+    
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                MainDashboardView(viewModel: viewModel)
+                
+              }
+            
+            
+            .onAppear {
+                viewModel.refreshTodayData()
+            }
         }
     }
 }

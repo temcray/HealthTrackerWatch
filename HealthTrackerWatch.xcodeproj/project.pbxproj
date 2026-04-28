@@ -45,6 +45,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/DiaryEntry.swift,
+				Models/UserGoals.swift,
 				Services/StrongeManager.swift,
 				Views/Components/ProgressRingView.swift,
 				Views/MainDashboardView.swift,
@@ -55,6 +56,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/DiaryEntry.swift,
+				Models/UserGoals.swift,
 				Services/StrongeManager.swift,
 				Views/Components/ProgressRingView.swift,
 				Views/MainDashboardView.swift,
