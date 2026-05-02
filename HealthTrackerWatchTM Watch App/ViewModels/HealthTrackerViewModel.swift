@@ -25,7 +25,7 @@ class HealthTrackerViewModel: ObservableObject {
         min(todaysWater / goals.dailyWaterGoal, 1.0)
     }
     
-    private let storgeManger = StorageManager.shared
+    private let storageManager = StorageManager.shared
     
     init() {
         self.goals = StorageManager.shared.loadGoals()
@@ -33,7 +33,7 @@ class HealthTrackerViewModel: ObservableObject {
     }
     
     func refreshTodaysData() {
-        todaysCalories = storeManager.getTodaysTotal(for: .calories)
+        todaysCalories = storageManager.getTodaysTotal(for: .calories)
         todaysWater = storageManager.getTodaysTotal(for: .water)
     }
 }

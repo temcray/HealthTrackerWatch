@@ -19,10 +19,8 @@ struct HealthTrackerWatchTM_Watch_AppApp: App {
                 MainDashboardView(viewModel: viewModel)
                 
               }
-            
-            
             .onAppear {
-                viewModel.refreshTodayData()
+                viewModel.refreshTodaysData()
             }
         }
     }

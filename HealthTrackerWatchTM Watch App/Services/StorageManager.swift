@@ -10,8 +10,8 @@ import Combine
 
 
 // singleton
-class StrongeManager {
-    static let shared = StrongeManager()
+class StorageManager {
+    static let shared = StorageManager()
     private init() {}
     
     
@@ -70,16 +70,16 @@ class StrongeManager {
     func getTodayEntries() -> [DiaryEntry] {
         let allTimeEntries = loadEntries()
         
-        let calender = Calender.current
-        let startofDayToday = calendar.startOfDay(for: Date())
+        let calendar = Calendar.current
+        let startOfDayToday = calendar.startOfDay(for: Date())
         
         return allTimeEntries.filter {entry in
-            calender.isDate(entry.timestamp, inSameDayAs: startOfDayToday)
+            calendar.isDate(entry.timestamp, inSameDayAs: startOfDayToday)
         }
     }
     
     func getTodaysTotal(for type: EntryType) -> Double {
-        getTodaysEntries()
+        getTodayEntries()
             .filter {$0.type == type }
             .reduce(0) {$0 + $1.value}
     }
