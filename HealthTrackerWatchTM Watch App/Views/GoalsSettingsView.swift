@@ -106,6 +106,18 @@ struct GoalsSettingsView: View {
                     .padding(.vertical, 12)
                     .background(Color.green)
                     .foregroundColor(.black)
+                    .cornerRadius(12)
+                                   }
+                                   .buttonStyle(PlainButtonStyle())
+                                   .padding(.top, 8)
+                                 
+                               }
+                               .padding(8)
+                           }
+                           .navigationTitle("Goals")
+                           .navigationBarTitleDisplayMode(.inline)
+                       }
+                   }
             }
         }
         

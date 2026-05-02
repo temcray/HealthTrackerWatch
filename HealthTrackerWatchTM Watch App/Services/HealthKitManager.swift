@@ -19,14 +19,21 @@ class HealthKitManager {
     // MARK: - HealthKit Types
     private let caloriesType = HKQuantityType.quantityType(forIdentifier: .dietaryEnergyConsumed)!
     private let waterType = HKQuantityType.quantityType(forIdentifier: .dietaryWater)!
+    private let heartRate = HKQuantityType.quantityType(forIdentifier: .heartRate)
     
     // MARK: - Units
     private let caloriesUnit = HKUnit.kilocalorie()
     private let waterUnit = HKUnit.literUnit(with: .milli)
+    private let heartRateUnit = HKUnit(from: "count/min")
+    
+    // MARK: -Query
+    private var heartRateQuery: HKAnchoredObjectQuery
     
     var isHealthDataAvailable: Bool {
         HKHealthStore.isHealthDataAvailable()
     }
+    
+    // MARK: METHODS-
     
     func requestAuth() async throws {
         let typesToRead: Set<HKObjectType> = [caloriesType, waterType]
@@ -42,6 +49,8 @@ class HealthKitManager {
         return caloriesAuthStatus == .sharingAuthorized && waterAuthStatus == .sharingAuthorized
     }
     
+    // heartRate Auth
+    
     func getTodaysTotal(for type: EntryType) async throws -> Double {
         let hkType = type == .calories ? caloriesType : waterType
         let unit = type == .calories ? caloriesUnit : waterUnit
@@ -51,7 +60,7 @@ class HealthKitManager {
         let startOfDay = calendar.startOfDay(for: now)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)
 
-        print("Fetching today's \(type.displayName) from HealthKit...")
+        print("Fetching today's \(type.displayType) from HealthKit...")
         print("Time range: \(startOfDay) to \(endOfDay ?? now)")
 
         let predicate = HKQuery.predicateForSamples(
@@ -65,13 +74,13 @@ class HealthKitManager {
                 options: .cumulativeSum
             ) { _, samples, error in
                 if let error = error {
-                    print("Error fetching \(type.displayName): \(error)")
+                    print("Error fetching \(type.displayType): \(error)")
                     continuation.resume(throwing: error)
                     return
                 }
 
                 let sum = samples?.sumQuantity()?.doubleValue(for: unit) ?? 0.0
-                print("Fetched \(sum) \(type.displayName) from HealthKit")
+                print("Fetched \(sum) \(type.displayType) from HealthKit")
                 continuation.resume(returning: sum)
             }
 
@@ -83,7 +92,7 @@ class HealthKitManager {
         let hkType = entry.type == .calories ? caloriesType : waterType
         let unit = entry.type == .calories ? caloriesUnit : waterUnit
 
-        print("Adding \(entry.value) \(entry.type.displayName) to HealthKit...")
+        print("Adding \(entry.value) \(entry.type.displayType) to HealthKit...")
 
         let quantity = HKQuantity(unit: unit, doubleValue: entry.value)
         let sample = HKQuantitySample(
@@ -95,5 +104,24 @@ class HealthKitManager {
 
         try await healthStore.save(sample)
         print("Saved to HealthKit successfully")
+    }
+    
+    // MARK: - Heart rate methods
+    func startHeartRateMonitoring(onUpdate: @escaping) ->
+    [HeartRateSample]{
+        stopHeartRateMonitoring()
+        
+        let query = HKAnchoredObjectQuery(
+            type: heartRateType,
+            predicate: nil,
+            anchor: nil
+            
+        )
+    }
+    func stopHeartRateMonitoring(){
+        if let query = self.heartRateQuery {
+            healthStore.stop(query)
+            
+        }
     }
 }
