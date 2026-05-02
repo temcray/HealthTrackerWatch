@@ -46,6 +46,7 @@
 			membershipExceptions = (
 				Models/DiaryEntry.swift,
 				Models/UserGoals.swift,
+				Services/HealthKitManager.swift,
 				Services/StorageManager.swift,
 				Views/AddEntryView.swift,
 				Views/Components/ProgressRingView.swift,

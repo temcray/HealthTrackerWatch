@@ -6,21 +6,21 @@
 //
 
 import SwiftUI
-import Combine
 
 @main
-struct HealthTrackerWatchTM_Watch_AppApp: App {
-    @StateObject private var viewModel = HealthTrackerViewModel()
-    
+struct HealthTracker_Watch_AppApp: App {
+    @StateObject private var viewModel = HealtTrackerViewModel()
     
     var body: some Scene {
         WindowGroup {
             NavigationStack {
                 MainDashboardView(viewModel: viewModel)
-                
-              }
+            }
             .onAppear {
                 viewModel.refreshTodaysData()
+                Task {
+                    await viewModel.requestHealthKitAuth()
+                }
             }
         }
     }
