@@ -50,6 +50,7 @@
 				Services/HealthKitManager.swift,
 				Services/StorageManager.swift,
 				Views/AddEntryView.swift,
+				Views/Components/HeartRateCardView.swift,
 				Views/Components/ProgressRingView.swift,
 				Views/Components/QuickAddButton.swift,
 				Views/GoalsSettingsView.swift,

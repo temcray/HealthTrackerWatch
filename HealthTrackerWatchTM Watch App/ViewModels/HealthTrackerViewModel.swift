@@ -15,10 +15,16 @@ class HealtTrackerViewModel: ObservableObject {
     @Published var todaysCalories: Double = 0
     @Published var todaysWater: Double = 0
     
-    // This is a controller variable
     @Published var useHealthKit: Bool = false
     @Published var hkAuthStatus: String = "Not Requested"
-
+    
+    // MARK: - Hearth Rate State Variables
+    @Published var currentHeartRate: Double = 0
+    @Published var isMonitoringHeartRate: Bool = false
+    @Published var isHealthKitHeartRateAuthorized: Bool = false
+    // @Published var heartRateError: String?
+    @Published var lastHeartRateUpdate: Date?
+    @Published var maxHeartRate: Double = 190.0
     
     var caloriesProgress: Double {
         min(todaysCalories / goals.dailyCaloriesGoal, 1.0)
@@ -145,9 +151,40 @@ class HealtTrackerViewModel: ObservableObject {
         do {
             try await healthKitManager.requestAuth()
             hkAuthStatus = "Authorized"
+            isHealthKitHeartRateAuthorized = true
             await refreshTodaysData()
         } catch {
             hkAuthStatus = "Failed Auth"
+        }
+    }
+    
+    // MARK: - Heart Rate Methods
+    func handleHeartRateSamples(_ samples: [HeartRateSample]) {
+        if let latestSample = samples.first {
+            currentHeartRate = latestSample.bpm
+            lastHeartRateUpdate = latestSample.timestamp
+        }
+    }
+    
+    func startHeartRateMonitoring() {
+        isMonitoringHeartRate = true
+        healthKitManager.startHearthRateMonitoring { [weak self] samples in
+            Task { @MainActor in
+                self?.handleHeartRateSamples(samples)
+            }
+        }
+    }
+    
+    func stopHeartRateMonitoring() {
+        healthKitManager.stopHearthRateMonitoring()
+        isMonitoringHeartRate = false
+    }
+    
+    func toggleHeartRateMonitoring() {
+        if isMonitoringHeartRate {
+            stopHeartRateMonitoring()
+        } else {
+            startHeartRateMonitoring()
         }
     }
     
