@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 struct HeartRateSample: Identifiable {
     let id: UUID
