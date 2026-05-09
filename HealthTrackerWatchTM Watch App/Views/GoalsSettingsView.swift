@@ -64,7 +64,7 @@ struct GoalsSettingsView: View {
                     HStack {
                         Image(systemName: EntryType.calories.icon)
                             .foregroundColor(EntryType.calories.color)
-                        Text("\(EntryType.calories.displayName) Goal")
+                        Text("\(EntryType.calories.displayType) Goal")
                             .font(.system(size: 13, weight: .medium))
                         Spacer()
                     }
@@ -99,7 +99,7 @@ struct GoalsSettingsView: View {
                     HStack {
                         Image(systemName: EntryType.water.icon)
                             .foregroundColor(EntryType.water.color)
-                        Text("\(EntryType.water.displayName) Goal")
+                        Text("\(EntryType.water.displayType) Goal")
                             .font(.system(size: 13, weight: .medium))
                         Spacer()
                     }

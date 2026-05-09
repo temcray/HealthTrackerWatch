@@ -44,10 +44,12 @@
 		545B58152F9D1E0100BBC4A3 /* Exceptions for "HealthTrackerWatchTM Watch App" folder in "HealthTrackerWatch" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/AcivityTtpe.swift,
 				Models/DiaryEntry.swift,
 				Models/HeartRateSample.swift,
 				Models/UserGoals.swift,
 				Services/HealthKitManager.swift,
+				Services/MotionManager.swift,
 				Services/StorageManager.swift,
 				Views/AddEntryView.swift,
 				Views/Components/HeartRateCardView.swift,

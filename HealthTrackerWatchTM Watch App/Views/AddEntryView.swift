@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AddEntryView: View {
-    @ObservedObject var viewModel: HealthTrackerViewModel
+    @ObservedObject var viewModel: HealtTrackerViewModel
     let entryType: EntryType
     @State private var selectedAmount: Double = 0
     @Environment(\.dismiss)private var dismiss
@@ -24,7 +24,7 @@ struct AddEntryView: View {
                     .font(.system(size: 28))
                     .foregroundColor(entryType.color)
                 
-                Text("Add\(entryType.displayName)")
+                Text("Add\(entryType.displayType)")
                     .font(.system(size: 14, weight: .medium))
                 
                 Text("\(Int(selectedAmount))")
@@ -33,7 +33,7 @@ struct AddEntryView: View {
                 
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
-                    GridItem(.fixed())
+                    GridItem(.flexible())
                 ], spacing: 10) {
                     ForEach(quickAddOptions, id: \.self){ amount in
                         Button {
@@ -57,6 +57,6 @@ struct AddEntryView: View {
 }
 
 #Preview {
-    AddEntryView(viewModel: HealthTrackerViewModel(), entryType: .calories)
+    AddEntryView(viewModel: HealtTrackerViewModel(), entryType: .calories)
 }
 

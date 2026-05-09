@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainDashboardView: View {
-    @ObservedObject var viewModel: HealthTrackerViewModel
+    @ObservedObject var viewModel: HealtTrackerViewModel
     var body: some View {
         ScrollView {
            VStack (spacing: 16){
@@ -56,6 +56,30 @@ struct MainDashboardView: View {
                 
             }
             
+            // Quick Button
+            HStack(spacing: 12){
+                NavigationLink(destination: AddEntryView(viewModel: viewModel, entryType: .water)) {
+                    QuickAddButton(
+                        icon: "plus",
+                        label: EntryType.water.displayType,
+                        color: EntryType.water.color
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+            
+            // Setting button
+            NavigationLink(destination: GoalsSettingsView(viewModel: viewModel)) {
+                HStack {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 12))
+                    Text("Goals")
+                        .font(.system(size: 12))
+                }.foregroundColor(.gray)
+            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.top, 4)
+            
             HStack(spacing: 12){
                 NavigationLink(destination: AddEntryView(viewModel: viewModel, entryType: .water)) {
                     QuickAddButton(
@@ -76,7 +100,7 @@ struct MainDashboardView: View {
                 .buttonStyle(PlainButtonStyle())
             }
             
-            NavigationLink(destination: GoalsSettingView(viewModel: viewModel)) {
+            NavigationLink(destination: GoalsSettingsView(viewModel: viewModel)) {
                 HStack{
                     Image(systemName: "gearshape.fill")
                         .font(.system(size: 12))
@@ -91,5 +115,5 @@ struct MainDashboardView: View {
 }
 
 #Preview{
-    MainDashboardView(viewModel: HealthTrackerViewModel())
+    MainDashboardView(viewModel: HealtTrackerViewModel())
 }

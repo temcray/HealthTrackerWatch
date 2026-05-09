@@ -106,13 +106,17 @@ struct HeartRateCardView: View {
         }
         .onChange(of: isBeating) { _, newValue in
             if newValue {
-                //startPulse
+                isHeartPulsing = true
             } else {
-                //stop pulse
+                isHeartPulsing = false
             }
         }
         .onChange(of: viewModel.currentHeartRate) {
-            // restart pulse
+            if isBeating{
+                isHeartPulsing = false
+                
+            }
         }
     }
 }
+

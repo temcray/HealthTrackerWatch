@@ -52,7 +52,7 @@ struct DiaryEntry: Identifiable, Codable {
     let timestamp: Date
     
    
-    init(id: UUID, type: EntryType, value: Double, timestamp: Date) {
+    init(id: UUID = UUID(), type: EntryType, value: Double, timestamp: Date = Date()) {
         self.id = id
         self.type = type
         self.value = value

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import HealthKit
 
 class HealthKitManager {
@@ -67,7 +66,7 @@ class HealthKitManager {
         let startOfDay = calendar.startOfDay(for: now)
         let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)
         
-        print("Fetching today's \(type.displayName) from HealthKit...")
+        print("Fetching today's \(type.displayType) from HealthKit...")
         print("Time range: \(startOfDay) to \(endOfDay ?? now)")
         
         let predicate = HKQuery.predicateForSamples(
@@ -81,13 +80,13 @@ class HealthKitManager {
                 options: .cumulativeSum
             ) { _, samples, error in
                 if let error = error {
-                    print("Error fetching \(type.displayName): \(error)")
+                    print("Error fetching \(type.displayType): \(error)")
                     continuation.resume(throwing: error)
                     return
                 }
                 
                 let sum = samples?.sumQuantity()?.doubleValue(for: unit) ?? 0.0
-                print("Fetched \(sum) \(type.displayName) from HealthKit")
+                print("Fetched \(sum) \(type.displayType) from HealthKit")
                 continuation.resume(returning: sum)
             }
             
@@ -99,7 +98,7 @@ class HealthKitManager {
         let hkType = entry.type == .calories ? caloriesType : waterType
         let unit = entry.type == .calories ? caloriesUnit : waterUnit
         
-        print("Adding \(entry.value) \(entry.type.displayName) to HealthKit...")
+        print("Adding \(entry.value) \(entry.type.displayType) to HealthKit...")
         
         let quantity = HKQuantity(unit: unit, doubleValue: entry.value)
         let sample = HKQuantitySample(
