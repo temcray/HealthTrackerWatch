@@ -26,6 +26,9 @@ class HealtTrackerViewModel: ObservableObject {
     @Published var lastHeartRateUpdate: Date?
     @Published var maxHeartRate: Double = 190.0
     
+    @Published var showMotivationalQuote: Bool = false
+    @Published var currentQuote: MotivationlQuote?
+    
     var caloriesProgress: Double {
         min(todaysCalories / goals.dailyCaloriesGoal, 1.0)
     }
@@ -37,6 +40,7 @@ class HealtTrackerViewModel: ObservableObject {
     // MARK: - View Model For Storage Manager
     private let storageManager = StorageManager.shared
     private let healthKitManager = HealthKitManager.shared
+    private let motivationalQuoteService = MotivationalQuoteService.shared
     
     init() {
         self.goals = StorageManager.shared.loadGoals()
@@ -100,6 +104,8 @@ class HealtTrackerViewModel: ObservableObject {
             storageManager.addEntry(entry)
             todaysWater += amount
         }
+        
+        
     }
     
     func refreshTodaysData() async {
@@ -185,6 +191,18 @@ class HealtTrackerViewModel: ObservableObject {
             stopHeartRateMonitoring()
         } else {
             startHeartRateMonitoring()
+        }
+    }
+    
+    // MARK: - Motivational Quote func
+    func fetchQuoteAfterEntry() {
+        showMotivationalQuote = true
+        
+        Task {
+            currentQuote = await motivationalQuoteService.fetchQuote()
+            
+            try? await Task.sleep(nanoseconds: 5_000_000_000)
+            showMotivationalQuote = false 
         }
     }
     
